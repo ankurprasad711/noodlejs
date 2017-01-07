@@ -19,7 +19,7 @@ request(url,function(err,resp,body){
 })*/
 
 //save into file
-var destination = fs.createWriteStream('google2.html');
+/*var destination = fs.createWriteStream('google2.html');
 var url="http://google.com";
 request(url)
     .pipe(destination)
@@ -28,11 +28,19 @@ request(url)
     })
     .on('error',function(){
       console.log(err);
-    })
-
+    })*/
+var text;
+var url="http://www.w3schools.com/js/";
+request(url,function(err,res,body){
+  var $ = cheerio.load(body);
+   var result=$('.color_h1');
+    text=result.text();
+   console.log("data");
+   console.log(text);
+})
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: text });
 });
 
 module.exports = router;
