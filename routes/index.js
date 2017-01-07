@@ -1,25 +1,38 @@
 var express = require('express');
 var router = express.Router();
-var noodle= require('noodlejs');
+//var noodle= require('noodlejs');
+var fs=require('fs');
+var request=require('request');
+var cheerio=require('cheerio');
+var path=require('path');
+
+//basic example
+/*var url="http://google.com";
+request(url,function(err,resp,body){
+   if(err) {
+       console.log(err);
+   }
+   else {
+       console.log(body);
+   }
+
+})*/
+
+//save into file
+var destination = fs.createWriteStream('google2.html');
+var url="http://google.com";
+request(url)
+    .pipe(destination)
+    .on('finish',function(){
+      console.log('done');
+    })
+    .on('error',function(){
+      console.log(err);
+    })
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-router.post('/output',function(req,res,next){
-    var query = {
-            url: 'http://google.com/search?q=javascript',
-            type: 'html',
-            selector: 'h3.r a',
-            extract: 'text'
-        },
-        uriQuery = encodeURIComponent(JSON.stringify(query)),
-        request  = 'http://example.noodlejs.com/?q=' +
-            uriQuery + '&callback=?';
 
-// Make Ajax request to Noodle server
-    jQuery.getJSON(request, function (data) {
-        alert(data[0].results);
-    });
-
-});
 module.exports = router;
